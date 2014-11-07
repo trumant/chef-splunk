@@ -61,5 +61,12 @@ template "#{splunk_dir}/etc/system/local/inputs.conf" do
   not_if { node['splunk']['inputs_conf'].nil? || node['splunk']['inputs_conf']['host'].empty? }
 end
 
+template "#{splunk_dir}/apps/SplunkUniversalForwarder/default/limits.conf" do
+  source 'client-limits.conf.erb'
+  mode 0644
+  variables :ratelimit_kbps => node['splunk']['client']['ratelimit_kbps']
+  notifies :restart, 'service[splunk]'
+end
+
 include_recipe 'chef-splunk::service'
 include_recipe 'chef-splunk::setup_auth'
