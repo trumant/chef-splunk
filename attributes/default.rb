@@ -59,6 +59,8 @@ default['splunk']['user']['home'] = '/opt/splunk' if node['splunk']['is_server']
 
 default['splunk']['server']['runasroot'] = true
 
+default['splunk']['server_lookup'] = "splunk_is_server:true AND chef_environment:#{node.chef_environment}"
+
 case node['platform_family']
 when 'rhel'
   if node['kernel']['machine'] == 'x86_64'

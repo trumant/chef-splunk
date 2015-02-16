@@ -19,6 +19,7 @@ require 'chef/provider/lwrp_base'
 require_relative './helpers.rb'
 require 'chef/mixin/shell_out'
 include Chef::Mixin::ShellOut
+include ChefSplunk::Helpers
 
 # Creates a provider for the splunk_app resource.
 class Chef

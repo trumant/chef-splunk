@@ -18,6 +18,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+Chef::ResourceDefinitionList.send(:include, ChefSplunk::Helpers)
+
 define :splunk_installer, :url => nil do
   cache_dir = Chef::Config[:file_cache_path]
   package_file = splunk_file(params[:url])

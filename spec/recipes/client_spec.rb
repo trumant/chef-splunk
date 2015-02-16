@@ -4,6 +4,7 @@ describe 'chef-splunk::client' do
   let(:chef_run) do
     ChefSpec::Runner.new.converge(described_recipe)
   end
+  let(:splunk_servers) { ['10.10.15.43:1648'] }
 
   before(:each) do
     allow_any_instance_of(Chef::Recipe).to receive(:include_recipe).and_return(true)
@@ -25,8 +26,9 @@ describe 'chef-splunk::client' do
 
   it 'creates an outputs template in the local system directory' do
     expect(chef_run).to create_template('/opt/splunkforwarder/etc/system/local/outputs.conf')
+    expect(chef_run).to render_file('/opt/splunkforwarder/etc/system/local/outputs.conf').with_content(/server=10.10.15.43:1648/)
   end
-
+  
   it 'notifies the splunk service to restart when rendering the outputs template' do
     resource = chef_run.template('/opt/splunkforwarder/etc/system/local/outputs.conf')
     expect(resource).to notify('service[splunk]').to(:restart)
